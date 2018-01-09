@@ -20,8 +20,8 @@ function launchmaster() {
     mkdir /data
   fi
   if [[ -n ${PASSWORD} ]]; then
-    echo "requirepass ${PASSWORD}" > /redis-master/redis.conf
-    echo "masterauth ${PASSWORD}" > /redis-master/redis.conf
+    echo "requirepass ${PASSWORD}" >> /redis-master/redis.conf
+    echo "masterauth ${PASSWORD}" >> /redis-master/redis.conf
   fi
   redis-server /redis-master/redis.conf --protected-mode no
 }
@@ -55,7 +55,7 @@ function launchsentinel() {
   echo "min-slaves-max-lag 10" >> ${sentinel_conf}
   echo "bind 0.0.0.0" >> ${sentinel_conf}
   if [[ -n ${PASSWORD} ]]; then
-    echo "sentinel auth-pass mymaster ${PASSWORD}" > ${sentinel_conf}
+    echo "sentinel auth-pass mymaster ${PASSWORD}" >> ${sentinel_conf}
   fi
   redis-sentinel ${sentinel_conf} --protected-mode no
 }
@@ -84,8 +84,8 @@ function launchslave() {
   sed -i "s/%master-ip%/${master}/" /redis-slave/redis.conf
   sed -i "s/%master-port%/6379/" /redis-slave/redis.conf
   if [[ -n ${PASSWORD} ]]; then
-    echo "requirepass ${PASSWORD}" > /redis-slave/redis.conf
-    echo "masterauth ${PASSWORD}" > /redis-slave/redis.conf
+    echo "requirepass ${PASSWORD}" >> /redis-slave/redis.conf
+    echo "masterauth ${PASSWORD}" >> /redis-slave/redis.conf
   fi
   redis-server /redis-slave/redis.conf --protected-mode no
 }
